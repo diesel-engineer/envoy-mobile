@@ -4,11 +4,26 @@ import io.envoyproxy.envoymobile.engine.types.EnvoyHTTPCallbacks;
 
 public class EnvoyEngineImpl implements EnvoyEngine {
 
-  private final long engineHandle;
+  private long engineHandle;
 
-  public EnvoyEngineImpl() {
+  public EnvoyEngineImpl(String configurationYAML, String logLevel) {
     JniLibrary.load();
-    this.engineHandle = JniLibrary.initEngine();
+    this.engineHandle = 0;
+    try {
+      this.engineHandle = JniLibrary.initEngine(configurationYAML, logLevel);
+    } catch (Throwable throwable) {
+      // TODO: Need to have a way to log the exception somewhere
+    }
+  }
+
+  public EnvoyEngineImpl(EnvoyConfiguration envoyConfiguration, String logLevel) {
+    JniLibrary.load();
+    this.engineHandle = 0;
+    try {
+      this.engineHandle = JniLibrary.initEngine(envoyConfiguration.resolveTemplate(JniLibrary.templateString()), logLevel);
+    } catch (Throwable throwable) {
+      // TODO: Need to have a way to log the exception somewhere
+    }
   }
 
   /**
@@ -30,24 +45,7 @@ public class EnvoyEngineImpl implements EnvoyEngine {
    * @return A status indicating if the action was successful.
    */
   @Override
-  public int runWithConfig(String configurationYAML, String logLevel) {
-    try {
-      return JniLibrary.runEngine(configurationYAML, logLevel);
-    } catch (Throwable throwable) {
-      // TODO: Need to have a way to log the exception somewhere
-      return 1;
-    }
-  }
-
-  /**
-   * Run the Envoy engine with the provided envoyConfiguration and log level.
-   *
-   * @param envoyConfiguration The EnvoyConfiguration used to start Envoy.
-   * @param logLevel The log level to use when starting Envoy.
-   * @return int A status indicating if the action was successful.
-   */
-  @Override
-  public int runWithConfig(EnvoyConfiguration envoyConfiguration, String logLevel) {
-    return runWithConfig(envoyConfiguration.resolveTemplate(JniLibrary.templateString()), logLevel);
+  public int runWithConfig() {
+    return JniLibrary.runEngine();
   }
 }

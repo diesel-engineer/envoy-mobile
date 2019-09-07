@@ -132,18 +132,18 @@ class JniLibrary {
   /**
    * Initialize an engine for handling network streams.
    *
+   * @param config,   the configuration blob to run envoy with.
+   * @param logLevel, the logging level to run envoy with.
    * @return envoy_engine_t, handle to the underlying engine.
    */
-  protected static native long initEngine();
+  protected static native long initEngine(String config, String logLevel);
 
   /**
    * External entry point for library.
    *
-   * @param config,   the configuration blob to run envoy with.
-   * @param logLevel, the logging level to run envoy with.
    * @return int, the resulting status of the operation.
    */
-  protected static native int runEngine(String config, String logLevel);
+  protected static native int runEngine();
 
   // Other native methods
 

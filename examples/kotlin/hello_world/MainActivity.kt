@@ -8,11 +8,12 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import io.envoyproxy.envoymobile.AndroidEnvoyBuilder
 import io.envoyproxy.envoymobile.Envoy
+import io.envoyproxy.envoymobile.EnvoyConfigurationBuilder
 import io.envoyproxy.envoymobile.RequestBuilder
 import io.envoyproxy.envoymobile.RequestMethod
 import io.envoyproxy.envoymobile.ResponseHandler
+import io.envoyproxy.envoymobile.engine.AndroidEngineImpl
 import io.envoyproxy.envoymobile.shared.Failure
 import io.envoyproxy.envoymobile.shared.ResponseRecyclerViewAdapter
 import io.envoyproxy.envoymobile.shared.Success
@@ -37,7 +38,9 @@ class MainActivity : Activity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    envoy = AndroidEnvoyBuilder(baseContext).build()
+    val configuration = EnvoyConfigurationBuilder().build()
+    val engine = AndroidEngineImpl(baseContext, configuration, "debug")
+    envoy = Envoy(engine)
 
     recyclerView = findViewById(R.id.recycler_view) as RecyclerView
     recyclerView.layoutManager = LinearLayoutManager(this)

@@ -14,17 +14,7 @@ public interface EnvoyEngine {
   /**
    * Run the Envoy engine with the provided yaml string and log level.
    *
-   * @param configurationYAML The configuration yaml with which to start Envoy.
    * @return A status indicating if the action was successful.
    */
-  int runWithConfig(String configurationYAML, String logLevel);
-
-  /**
-   * Run the Envoy engine with the provided EnvoyConfiguration and log level.
-   *
-   * @param envoyConfiguration The EnvoyConfiguration used to start Envoy.
-   * @param logLevel The log level to use when starting Envoy.
-   * @return int A status indicating if the action was successful.
-   */
-  int runWithConfig(EnvoyConfiguration envoyConfiguration, String logLevel);
+  int runWithConfig();
 }

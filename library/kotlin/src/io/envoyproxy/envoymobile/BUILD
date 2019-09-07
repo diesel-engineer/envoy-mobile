@@ -13,7 +13,7 @@ aar_with_jni(
 envoy_mobile_kt_aar_android_library(
     name = "envoy_lib",
     srcs = [
-        "AndroidEnvoyBuilder.kt",
+        "Envoy.kt",
     ],
     custom_package = "io.envoyproxy.envoymobile",
     manifest = "EnvoyManifest.xml",
@@ -31,7 +31,7 @@ envoy_mobile_kt_library(
     srcs = [
         "Client.kt",
         "Envoy.kt",
-        "EnvoyBuilder.kt",
+        "EnvoyConfigurationBuilder.kt",
         "EnvoyException.kt",
         "EnvoyStreamEmitter.kt",
         "Request.kt",

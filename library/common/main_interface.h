@@ -81,7 +81,7 @@ envoy_status_t reset_stream(envoy_stream_t stream);
  * Initialize an engine for handling network streams.
  * @return envoy_engine_t, handle to the underlying engine.
  */
-envoy_engine_t init_engine();
+envoy_engine_t init_engine(const char* config, const char* log_level);
 
 /**
  * External entry point for library.
@@ -89,7 +89,7 @@ envoy_engine_t init_engine();
  * @param log_level, the logging level to run envoy with.
  * @return envoy_status_t, the resulting status of the operation.
  */
-envoy_status_t run_engine(const char* config, const char* log_level);
+envoy_status_t run_engine();
 
 #ifdef __cplusplus
 } // functions

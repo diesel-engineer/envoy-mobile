@@ -29,17 +29,16 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
 
 extern "C" JNIEXPORT jlong JNICALL Java_io_envoyproxy_envoymobile_engine_JniLibrary_initEngine(
     JNIEnv* env,
-    jclass // class
+    jclass,
+    jstring config, jstring log_level
 ) {
-  return init_engine();
+  return init_engine(env->GetStringUTFChars(config, nullptr),
+                     env->GetStringUTFChars(log_level, nullptr));
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_io_envoyproxy_envoymobile_engine_JniLibrary_runEngine(JNIEnv* env,
-                                                           jclass, // class
-                                                           jstring config, jstring log_level) {
-  return run_engine(env->GetStringUTFChars(config, nullptr),
-                    env->GetStringUTFChars(log_level, nullptr));
+Java_io_envoyproxy_envoymobile_engine_JniLibrary_runEngine(JNIEnv* env, jclass) {
+  return run_engine();
 }
 
 // AndroidJniLibrary

@@ -48,28 +48,7 @@ envoy_status_t send_trailers(envoy_stream_t stream, envoy_headers trailers) {
 
 envoy_status_t reset_stream(envoy_stream_t stream) { return http_dispatcher_->resetStream(stream); }
 
-envoy_engine_t init_engine() {
-  // TODO(goaway): return new handle once multiple engine support is in place.
-  // https://github.com/lyft/envoy-mobile/issues/332
-  return 1;
-}
-
-/*
- * Setup envoy for interaction via the main interface.
- * As it stands this function __must__ be executed after calling `run_engine`.
- * run_engine assigns a static unique pointer used by this function.
- * TODO: this will change when the engine is no longer static:
- * https://github.com/lyft/envoy-mobile/issues/332
- */
-void setup_envoy() {
-  http_dispatcher_ = std::make_unique<Envoy::Http::Dispatcher>(
-      main_common_->server()->dispatcher(), main_common_->server()->clusterManager());
-}
-
-/**
- * External entrypoint for library.
- */
-envoy_status_t run_engine(const char* config, const char* log_level) {
+envoy_engine_t init_engine(const char* config, const char* log_level) {
   char* envoy_argv[] = {strdup("envoy"), strdup("--config-yaml"), strdup(config),
                         strdup("-l"),    strdup(log_level),       nullptr};
 
@@ -101,17 +80,26 @@ envoy_status_t run_engine(const char* config, const char* log_level) {
     main_common_ = std::make_unique<Envoy::MainCommon>(5, envoy_argv);
     // TODO: this call should be done in a post init callback.
     // related issue: https://github.com/lyft/envoy-mobile/issues/285.
-    setup_envoy();
+    http_dispatcher_ = std::make_unique<Envoy::Http::Dispatcher>(
+        main_common_->server()->dispatcher(), main_common_->server()->clusterManager());
   } catch (const Envoy::NoServingException& e) {
-    return ENVOY_SUCCESS;
+    return 0;
   } catch (const Envoy::MalformedArgvException& e) {
     std::cerr << e.what() << std::endl;
-    return ENVOY_FAILURE;
+    return 0;
   } catch (const Envoy::EnvoyException& e) {
     std::cerr << e.what() << std::endl;
-    return ENVOY_FAILURE;
+    return 0;
   }
+  // TODO(goaway): return new handle once multiple engine support is in place.
+  // https://github.com/lyft/envoy-mobile/issues/332
+  return 1;
+}
 
+/**
+ * External entrypoint for library.
+ */
+envoy_status_t run_engine() {
   // Run the server listener loop outside try/catch blocks, so that unexpected
   // exceptions show up as a core-dumps for easier diagnostics.
   return main_common_->run() ? ENVOY_SUCCESS : ENVOY_FAILURE;
