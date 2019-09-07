@@ -7,9 +7,9 @@ swift_static_framework(
     name = "ios_framework",
     srcs = ["Empty.swift"],
     module_name = "Envoy",
-    objc_includes = [
-        "//library/objective-c:EnvoyEngine.h",
-    ],
+    # objc_includes = [
+    #     "//library/objective-c:EnvoyEngine.h",
+    # ],
     visibility = ["//visibility:public"],
     deps = [
         ":ios_interfaces_lib",

@@ -38,7 +38,7 @@ def _zip_swift_arg(module_name, swift_identifier, input_file):
 
 def _create_umbrella_header(objc_headers, module_name, ctx):
     imports = ['#import "{}"'.format(x.basename) for x in objc_headers]
-    content = "\n".join(imports)
+    content = ""  #"\n".join([imports])
     file = ctx.actions.declare_file("{}-Swift.h".format(module_name))
     ctx.actions.write(file, content)
     return file
