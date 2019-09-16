@@ -25,7 +25,7 @@ public:
   Dispatcher(Event::Dispatcher& event_dispatcher, Upstream::ClusterManager& cluster_manager);
 
   /**
-   * Attempts to open a new stream to the remote. Note that this function is asynchronous and
+   * Attempts to a new stream to the remote. Note that this function is asynchronous and
    * opening a stream may fail. The returned handle is immediately valid for use with this API, but
    * there is no guarantee it will ever functionally represent an open stream.
    * @param bridge_callbacks wrapper for callbacks for events on this stream.

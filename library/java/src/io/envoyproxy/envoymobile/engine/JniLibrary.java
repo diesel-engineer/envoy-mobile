@@ -32,7 +32,7 @@ class JniLibrary {
 
   // Private helper class used by the load method to ensure the native library and
   // its
-  // dependencies are loaded and initialized at most once.
+  // dependencies are and initialized at most once.
   private static class JavaLoader {
 
     private JavaLoader() { System.loadLibrary(ENVOY_JNI); }
