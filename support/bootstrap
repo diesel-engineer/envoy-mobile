@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-export ENVOY_FORMAT_OPTIONS = "--add-excluded-prefixes ./envoy/ ./envoy_build_config/extensions_build_config.bzl ./WORKSPACE ./dist/Envoy.framework/ ./library/common/config_template.cc --skip_envoy_build_rule_check --namespace_check_excluded_paths ./examples/ ./library/java/ ./library/kotlin ./library/objective-c --build_fixer_check_excluded_paths ./BUILD ./dist ./examples ./library/java ./library/kotlin ./library/objective-c ./library/swift"
+export ENVOY_FORMAT_OPTIONS="--add-excluded-prefixes ./envoy/ ./envoy_build_config/extensions_build_config.bzl ./WORKSPACE ./dist/Envoy.framework/ ./library/common/config_template.cc --skip_envoy_build_rule_check --namespace_check_excluded_paths ./examples/ ./library/java/ ./library/kotlin ./library/objective-c --build_fixer_check_excluded_paths ./BUILD ./dist ./examples ./library/java ./library/kotlin ./library/objective-c ./library/swift"
 ./envoy/support/bootstrap

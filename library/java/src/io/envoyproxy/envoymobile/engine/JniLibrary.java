@@ -50,7 +50,7 @@ class JniLibrary {
 
   /**
    * Open an HTTP stream. Note: Streams must be started before other other
-   * interaction can can occur.
+   * interaction can can.
    *
    * @param stream,  handle to the stream to be started.
    * @param context, context that contains dispatch logic to fire callbacks
