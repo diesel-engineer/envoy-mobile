@@ -35,7 +35,9 @@ class JniLibrary {
   // dependencies are and initialized at most once.
   private static class JavaLoader {
 
-    private JavaLoader() { System.loadLibrary(ENVOY_JNI); }
+    private JavaLoader() {
+      System.loadLibrary(ENVOY_JNI);
+    }
   }
 
   /**
@@ -47,8 +49,8 @@ class JniLibrary {
   protected static native long initStream(long engine);
 
   /**
-   * Open an underlying HTTP stream. Note: Streams must be started before other
-   * other interaction can can occur.
+   * Open an HTTP stream. Note: Streams must be started before other other
+   * interaction can can occur.
    *
    * @param stream,  handle to the stream to be started.
    * @param context, context that contains dispatch logic to fire callbacks
