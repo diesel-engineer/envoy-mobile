@@ -148,6 +148,8 @@ private:
   Event::Dispatcher* event_dispatcher_ GUARDED_BY(dispatch_lock_);
   Upstream::ClusterManager* cluster_manager_ GUARDED_BY(dispatch_lock_);
   std::unordered_map<envoy_stream_t, DirectStreamPtr> streams_;
+  std::optional<envoy_error_code_t> error_code_;
+  std::optional<envoy_data> envoy_message_;
 };
 
 } // namespace Http
