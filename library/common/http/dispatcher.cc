@@ -27,7 +27,7 @@ void Dispatcher::DirectStreamCallbacks::onHeaders(HeaderMapPtr&& headers, bool e
   // option.(PUT ISSUE HERE)
 
   // The presence of EnvoyUpstreamServiceTime implies these headers are not due to a local reply.
-  if (headers->get(Headers::get().EnvoyUpstreamServiceTime) != nullptr) {
+  if (headers->get(LowerCaseString("x-envoy-mobile-forwarded")) != nullptr) {
     envoy_headers bridge_headers = Utility::toBridgeHeaders(*headers);
     bridge_callbacks_.on_headers(bridge_headers, end_stream, bridge_callbacks_.context);
   } else {
@@ -192,10 +192,14 @@ envoy_status_t Dispatcher::sendData(envoy_stream_t stream, envoy_data data, bool
     if (direct_stream != nullptr) {
       // The buffer is moved internally, in a synchronous fashion, so we don't need the lifetime of
       // the InstancePtr to outlive this function call.
+      ENVOY_LOG(
+          debug, "[S{}] request data for stream (length={} end_stream={}):\n{}", stream,
+          data.length, end_stream,
+          std::string(reinterpret_cast<char*>(const_cast<uint8_t*>(data.bytes)), data.length));
       Buffer::InstancePtr buf = Buffer::Utility::toInternalData(data);
 
-      ENVOY_LOG(debug, "[S{}] request data for stream (length={} end_stream={})\n", stream,
-                data.length, end_stream);
+      ENVOY_LOG(debug, "[S{}] request data for stream (length={} end_stream={}):\n{}", stream,
+                data.length, end_stream, buf->toString());
       direct_stream->underlying_stream_.sendData(*buf, end_stream);
     }
   });
